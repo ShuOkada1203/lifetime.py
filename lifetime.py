@@ -21,21 +21,28 @@ def count_year():
     got_year = geting_years.get()
     got_month = geting_months.get()
     got_day = geting_days.get()
+
+    got_year = int(got_year)
+    got_month = int(got_month)
+    got_day = int(got_day)
+
     
     life=datetime.date(got_year,got_month,got_day)
     today=datetime.date.today()
     lifedays=today-life
 
-    weekdays=life.weekday()
-    dayweek=["月","火","水","木","金","土","日"]
-    print(f"あなたは{dayweek[weekdays]}曜日生まれです")
+    # lifedays_label.delete(0,tk.END)
+    life_box.delete(1.0,tk.END)
 
     if lifedays.days >= 20000:
         limit_2=30000-lifedays.days
         one_year=limit_2//365
         rest=limit_2-one_year*365
         future=today+datetime.timedelta(limit_2)
-        print(f"おめでとうございます。あなたは20000日以上、{lifedays.days}日生きています。30000日まで残り{limit_2}日、{one_year}年と{rest}日で、30000日目は{future}です。")
+        lifedays_label.config(text=f"おめでとうございます。あなたは20000日以上、{lifedays.days}日生きています。")
+        life_box.insert(tk.END,f"30000日まで残り{limit_2}日、{one_year}年と{rest}日で、30000日目は{future}です。")
+
+        # print(f"おめでとうございます。あなたは20000日以上、{lifedays.days}日生きています。30000日まで残り{limit_2}日、{one_year}年と{rest}日で、30000日目は{future}です。")
 
 
     elif lifedays.days >= 10000:
@@ -43,14 +50,20 @@ def count_year():
         one_year=limit_2//365
         rest=limit_2-one_year*365
         future=today+datetime.timedelta(limit_2)
-        print(f"おめでとうございます。あなたは10000日以上、{lifedays.days}日生きています。20000日まで残り{limit_2}日、{one_year}年と{rest}日で、20000日目は{future}です。")
+        lifedays_label.config(text=f"おめでとうございます。あなたは10000日以上、{lifedays.days}日生きています。")
+        life_box.insert(tk.END,f"20000日まで残り{limit_2}日、{one_year}年と{rest}日で、20000日目は{future}です。")
+
+        # print(f"おめでとうございます。あなたは10000日以上、{lifedays.days}日生きています。20000日まで残り{limit_2}日、{one_year}年と{rest}日で、20000日目は{future}です。")
 
     else:
         limit=10000-lifedays.days
         one_year=limit//365
         rest=limit-one_year*365
         future=today+datetime.timedelta(limit)
-        print(f"あなたは{lifedays.days}日生きています。10000日まで残り{limit}日、{one_year}年と{rest}日後で、10000日目は{future}です。")
+        
+        lifedays_label.config(text=f"あなたは{lifedays.days}日生きています。")
+        life_box.insert(tk.END,f"10000日まで残り{limit}日、{one_year}年と{rest}日後で、10000日目は{future}です。")
+        # print(f"あなたは{lifedays.days}日生きています。10000日まで残り{limit}日、{one_year}年と{rest}日後で、10000日目は{future}です。")
         
 
 
@@ -68,6 +81,14 @@ days_ask = tk.Label(text="生まれた日付を教えてください")
 days_ask.pack()
 geting_days = tk.Entry()
 geting_days.pack()
+
+btn = tk.Button(text="あなたの直近のｎ万日目を知る",command=count_year)
+btn.pack()
+
+lifedays_label = tk.Label(text="")
+lifedays_label.pack()
+life_box = tk.Text(root,height=10,width=35)
+life_box.pack()
 
 
 
